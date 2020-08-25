@@ -191,10 +191,19 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: TabBarView(
           children: [
-            TextField(
-              controller: _terminal,
-              keyboardType: TextInputType.multiline,
-              maxLines: null,
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.all(25),
+                child: TextField(
+                    controller: _terminal,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    expands: true,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Paste character data here',
+                    )),
+              ),
             ),
             ListView.builder(
               itemCount: _character.skills.length,
@@ -206,7 +215,7 @@ class _MyHomePageState extends State<MyHomePage> {
         floatingActionButton: FloatingActionButton(
           onPressed: _importData,
           tooltip: 'Increment',
-          child: Icon(Icons.add),
+          child: Icon(Icons.save),
         ), // This trailing comma makes auto-formatting nicer for build methods.
       ),
     );
