@@ -80,13 +80,13 @@ class _MyHomePageState extends State<MyHomePage> {
               if (line1[1].toLowerCase().contains("(x")) {
                 List<String> details = line1[1].toLowerCase().split("(x");
                 i.name = details[0];
-                String s = GetFirstNumbers(details[1]);
+                String s = getFirstNumber(details[1]);
                 if (int.tryParse(s) != null) i.quantity = int.tryParse(s);
               } else if (line1[1].toLowerCase().contains("x")) {
                 List<String> details = line1[1].toLowerCase().split('x');
                 int q = 0;
                 String number = details.firstWhere((x) =>
-                    GetFirstNumbers(x) != null && GetFirstNumbers(x) != "");
+                    getFirstNumber(x) != null && getFirstNumber(x) != "");
                 if (number != null && number != "") {
                   i.name = line1[1]
                       .replaceAll(number, "")
@@ -116,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 print(s);
                 s = s.replaceAll("lv", "");
                 s = s.replaceAll("l ", "").trim();
-                s = GetFirstNumbers(s);
+                s = getFirstNumber(s);
                 skill.level = int.parse(s);
               } else {
                 skill.name = line1[1];
@@ -196,6 +196,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Padding(
                 padding: EdgeInsets.all(25),
                 child: TextField(
+                    textAlignVertical: TextAlignVertical.top,
                     controller: _terminal,
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
@@ -206,11 +207,76 @@ class _MyHomePageState extends State<MyHomePage> {
                     )),
               ),
             ),
-            ListView.builder(
-              itemCount: _character.skills.length,
-              itemBuilder: (context, index) =>
-                  Text(_character.skills[index].name),
+            ListView(
+              children: [
+                ExpansionTile(
+                    title: Text('Items'),
+                    expandedAlignment: Alignment.topLeft,
+                    children: <Widget>[
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: _character.items.length,
+                        itemBuilder: (context, index) => ListTile(
+                          trailing: Text('(x' +
+                              _character.items[index].quantity.toString() +
+                              ')'),
+                          title: TextFormField(
+                            initialValue: _character.items[index].name,
+                          ),
+                        ),
+                      ),
+                    ]),
+                ExpansionTile(
+                    title: Text('Skills'),
+                    expandedAlignment: Alignment.topLeft,
+                    children: <Widget>[
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: _character.skills.length,
+                        itemBuilder: (context, index) => ListTile(
+                          trailing: Text('Lv. ' +
+                              _character.skills[index].level.toString()),
+                          title: TextFormField(
+                            initialValue: _character.skills[index].name,
+                          ),
+                        ),
+                      ),
+                    ]),
+                ExpansionTile(
+                    title: Text('Status'),
+                    expandedAlignment: Alignment.topLeft,
+                    children: <Widget>[
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: _character.statuses.length,
+                        itemBuilder: (context, index) => ListTile(
+                          title: TextFormField(
+                            initialValue: _character.statuses[index].name,
+                          ),
+                        ),
+                      ),
+                    ]),
+                ExpansionTile(
+                    title: Text('Notes'),
+                    expandedAlignment: Alignment.topLeft,
+                    children: <Widget>[
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: _character.notes.length,
+                        itemBuilder: (context, index) => ListTile(
+                          title: TextFormField(
+                            initialValue: _character.notes[index].description,
+                          ),
+                        ),
+                      ),
+                    ]),
+              ],
             ),
+            // ListView.builder(
+            //   itemCount: _character.skills.length,
+            //   itemBuilder: (context, index) =>
+            //       Text(_character.skills[index].name),
+            // ),
           ],
         ),
         floatingActionButton: FloatingActionButton(
@@ -223,7 +289,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-String GetFirstNumbers(String details) {
+String getFirstNumber(String details) {
   String s = "";
   for (var i = 0; i < details.runes.length; i++) {
     if (int.tryParse(details.runes.elementAt(i).toString()) != null) {
