@@ -164,6 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  String dropdownValue = 'Names';
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -209,6 +210,68 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ListView(
               children: [
+                Padding(
+                  padding: const EdgeInsets.all(25.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      // ToDo: Work on this. (James) []-----------[)
+                      // Expanded(
+                      //     child: DropdownButton(
+                      //         value: dropdownValue,
+                      //         icon: Icon(Icons.arrow_downward),
+                      //         iconSize: 24,
+                      //         elevation: 16,
+                      //         style: TextStyle(color: Colors.black),
+                      //         onChanged: (String newValue) {
+                      //           setState(() {
+                      //             dropdownValue = newValue;
+                      //           });
+                      //         },
+                      //         items: _character.names
+                      //             .map<DropdownMenuItem<String>>(
+                      //                 (String value) {
+                      //           return DropdownMenuItem<String>(
+                      //             value: value != null ? value : 'Null',
+                      //             child: Text(value != null ? value : 'Null'),
+                      //           );
+                      //         }).toList())),
+                      SizedBox(
+                        width: 50,
+                        child: TextFormField(
+                          initialValue: '0',
+                          textAlign: TextAlign.end,
+                          decoration: InputDecoration(
+                            labelText: 'Gold',
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        child: SizedBox(
+                          width: 50,
+                          child: TextFormField(
+                            initialValue: '0',
+                            textAlign: TextAlign.end,
+                            decoration: InputDecoration(
+                              labelText: 'Silver',
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 50,
+                        child: TextFormField(
+                          initialValue: '0',
+                          textAlign: TextAlign.end,
+                          decoration: InputDecoration(
+                            labelText: 'Copper',
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 ExpansionTile(
                     title: Text('Items'),
                     expandedAlignment: Alignment.topLeft,
