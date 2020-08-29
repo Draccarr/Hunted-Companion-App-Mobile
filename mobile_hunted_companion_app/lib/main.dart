@@ -242,6 +242,8 @@ class _MyHomePageState extends State<MyHomePage> {
             } else if (line1[0].toLowerCase().contains("name")) {
               _character.names.add(line1[1].trim());
             }
+          } else if (!["", null, false, 0].contains(line.trim())) {
+            _character.name = line.trim();
           }
         } catch (ex) {
           print(ex);
