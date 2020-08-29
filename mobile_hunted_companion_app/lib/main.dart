@@ -393,6 +393,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               ')'),
                           title: TextFormField(
                             initialValue: _character.items[index].name,
+                            onChanged: (value) =>
+                                _character.items[index].name = value,
                           ),
                         ),
                       ),
@@ -409,6 +411,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               _character.skills[index].level.toString()),
                           title: TextFormField(
                             initialValue: _character.skills[index].name,
+                            onChanged: (value) =>
+                                _character.skills[index].name = value,
                           ),
                         ),
                       ),
@@ -423,6 +427,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         itemBuilder: (context, index) => ListTile(
                           title: TextFormField(
                             initialValue: _character.statuses[index].name,
+                            onChanged: (value) =>
+                                _character.statuses[index].name = value,
                           ),
                         ),
                       ),
@@ -437,6 +443,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         itemBuilder: (context, index) => ListTile(
                           title: TextFormField(
                             initialValue: _character.notes[index].description,
+                            onChanged: (value) =>
+                                _character.notes[index].name = value,
                           ),
                         ),
                       ),
