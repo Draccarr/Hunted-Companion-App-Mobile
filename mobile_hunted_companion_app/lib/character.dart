@@ -1,4 +1,5 @@
 class Character {
+  String name;
   List<String> names;
   List<Item> items;
   List<Skill> skills;
@@ -7,8 +8,8 @@ class Character {
   int gold;
   int silver;
   int copper;
-  Character(this.names, this.items, this.skills, this.statuses, this.notes,
-      this.silver, this.copper, this.gold);
+  Character(this.name, this.names, this.items, this.skills, this.statuses,
+      this.notes, this.silver, this.copper, this.gold);
 }
 
 class Item {
