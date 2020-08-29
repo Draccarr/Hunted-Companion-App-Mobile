@@ -53,7 +53,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   Character _character = Character("", [], [], [], [], [], 0, 0, 0);
   TextEditingController _terminal = TextEditingController();
+  int index = 0;
 
+  void _saveClicked() {
+    index == 0 ? _importData() : _exportData();
+  }
 
   void _exportData() {
     _terminal.text = "";
@@ -261,6 +265,9 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Scaffold(
         appBar: AppBar(
           bottom: TabBar(
+            onTap: (index) {
+              this.index = index;
+            },
             tabs: [
               Tab(
                 icon: Icon(Icons.airplay),
