@@ -54,6 +54,88 @@ class _MyHomePageState extends State<MyHomePage> {
   Character _character = Character([], [], [], [], [], 0, 0, 0);
   TextEditingController _terminal = TextEditingController();
 
+
+  void _exportData() {
+    _terminal.text = "";
+    _character.name = _character.name
+        .replaceAll('\r', "")
+        .replaceAll(';', "")
+        .replaceAll('\n', "");
+    _terminal.text += ":Jay: UC " + _character.name + " \n";
+    ExportItems();
+    ExportSkills();
+    ExportStatuses();
+    ExportNotes();
+    ExportNames();
+    _terminal.text += " Currency: " + _character.gold.toString() + " gold;\n";
+    _terminal.text +=
+        " Currency: " + _character.silver.toString() + " silver;\n";
+    _terminal.text +=
+        " Currency: " + _character.copper.toString() + " copper;\n";
+  }
+
+  void ExportNames() {
+    _character.names.forEach((element) {
+      _terminal.text += " Name: " + element.trim() + ";\n";
+    });
+  }
+
+  void ExportNotes() {
+    _character.notes.forEach((note) {
+      if (!["", null, false, 0].contains(note.description)) {
+        note.description = note.description
+            .replaceAll('\r', "")
+            .replaceAll(';', "")
+            .replaceAll('\n', "");
+        _terminal.text += " Note: " + note.description.trim() + ";\n";
+      }
+    });
+  }
+
+  void ExportStatuses() {
+    _character.statuses.forEach((status) {
+      if (!["", null, false, 0].contains(status.name)) {
+        status.name = status.name
+            .replaceAll('\r', "")
+            .replaceAll(';', "")
+            .replaceAll('\n', "");
+        _terminal.text += " Status: " + status.name.trim() + ";\n";
+      }
+    });
+  }
+
+  void ExportSkills() {
+    _character.skills.forEach((skill) {
+      if (!["", null, false, 0].contains(skill.name)) {
+        skill.name = skill.name
+            .replaceAll('\r', "")
+            .replaceAll(';', "")
+            .replaceAll('\n', "");
+        _terminal.text += " Skill: " +
+            skill.name.trim() +
+            " lvl " +
+            skill.level.toString() +
+            ";\n";
+      }
+    });
+  }
+
+  void ExportItems() {
+    _character.items.forEach((item) {
+      if (!["", null, false, 0].contains(item.name)) {
+        item.name = item.name
+            .replaceAll('\r', "")
+            .replaceAll(';', "")
+            .replaceAll('\n', "");
+        _terminal.text += " Item: " +
+            item.name.trim() +
+            "(x " +
+            item.quantity.toString() +
+            ");\n";
+      }
+    });
+  }
+
   void _importData() {
     setState(() {
       _character.items.clear();
