@@ -462,9 +462,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
 String getFirstNumber(String details) {
   String s = "";
-  for (var i = 0; i < details.runes.length; i++) {
-    if (int.tryParse(details.runes.elementAt(i).toString()) != null) {
-      s += details.runes.elementAt(i).toString();
+  for (var i = 0; i < details.length; i++) {
+    if (int.tryParse(details.substring(i, i + 1)) != null) {
+      s += details.substring(i, i + 1);
     }
   }
 
