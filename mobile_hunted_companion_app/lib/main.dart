@@ -164,7 +164,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  String dropdownValue = 'Names';
+  // I know your not supposed to null a string but... it won't work otherwise soo... I'll look into it later.
+  String dropdownValue = null;
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -216,30 +217,46 @@ class _MyHomePageState extends State<MyHomePage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       // ToDo: Work on this. (James) []-----------[)
+                      Expanded(
+                        child: DropdownButton<String>(
+                          value: dropdownValue,
+                          items: _character.names
+                              .map((String _dropDownStringItem) {
+                            return DropdownMenuItem<String>(
+                              value: _dropDownStringItem,
+                              child: Text(_dropDownStringItem),
+                            );
+                          }).toList(),
+                          onChanged: (String newValue) {
+                            setState(() {
+                              dropdownValue = newValue;
+                            });
+                          },
+                        ),
+                      ),
                       // Expanded(
                       //     child: DropdownButton(
-                      //         value: dropdownValue,
-                      //         icon: Icon(Icons.arrow_downward),
-                      //         iconSize: 24,
-                      //         elevation: 16,
-                      //         style: TextStyle(color: Colors.black),
-                      //         onChanged: (String newValue) {
-                      //           setState(() {
-                      //             dropdownValue = newValue;
-                      //           });
-                      //         },
-                      //         items: _character.names
-                      //             .map<DropdownMenuItem<String>>(
-                      //                 (String value) {
-                      //           return DropdownMenuItem<String>(
-                      //             value: value != null ? value : 'Null',
-                      //             child: Text(value != null ? value : 'Null'),
-                      //           );
-                      //         }).toList())),
+                      //   value: dropdownValue,
+                      //   icon: Icon(Icons.arrow_downward),
+                      //   iconSize: 20,
+                      //   elevation: 16,
+                      //   style: TextStyle(color: Colors.black),
+                      //   onChanged: (String newValue) {
+                      //     setState(() {
+                      //       dropdownValue = newValue;
+                      //     });
+                      //   },
+                      //   items: <String>['A', 'B', 'C', 'D'].map((String value) {
+                      //     return new DropdownMenuItem<String>(
+                      //       value: value,
+                      //       child: new Text(value),
+                      //     );
+                      //   }).toList(),
+                      // )),
                       SizedBox(
                         width: 50,
                         child: TextFormField(
-                          initialValue: '0',
+                          initialValue: _character.gold.toString(),
                           textAlign: TextAlign.end,
                           decoration: InputDecoration(
                             labelText: 'Gold',
@@ -251,7 +268,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: SizedBox(
                           width: 50,
                           child: TextFormField(
-                            initialValue: '0',
+                            initialValue: _character.silver.toString(),
                             textAlign: TextAlign.end,
                             decoration: InputDecoration(
                               labelText: 'Silver',
@@ -262,7 +279,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       SizedBox(
                         width: 50,
                         child: TextFormField(
-                          initialValue: '0',
+                          initialValue: _character.copper.toString(),
                           textAlign: TextAlign.end,
                           decoration: InputDecoration(
                             labelText: 'Copper',
