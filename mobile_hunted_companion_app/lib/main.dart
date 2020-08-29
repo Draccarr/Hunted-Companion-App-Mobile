@@ -51,7 +51,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Character _character = Character([], [], [], [], [], 0, 0, 0);
+  Character _character = Character("", [], [], [], [], [], 0, 0, 0);
   TextEditingController _terminal = TextEditingController();
 
 
