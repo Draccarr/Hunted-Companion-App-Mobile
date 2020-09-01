@@ -179,6 +179,9 @@ class _MyHomePageState extends State<MyHomePage> {
       _character.statuses.clear();
       _character.notes.clear();
       _character.names.clear();
+      _character.copper = 0;
+      _character.silver = 0;
+      _character.gold = 0;
 
       //@Alek, why remove :Jay: and UC? The players need them if they are to
       //paste their commands back into Discord. What I was asking before was for
@@ -292,7 +295,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   // I know your not supposed to null a string but... it won't work otherwise soo... I'll look into it later.
-  String dropdownValue = null;
+  String dropdownValue;
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -348,6 +351,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: [
                       Expanded(
                         child: DropdownButton<String>(
+                          hint: Text(_character != null
+                              ? _character.names.length > 0
+                                  ? _character.names[0]
+                                  : 'Empty...'
+                              : 'Empty...'),
                           value: dropdownValue,
                           items: _character.names
                               .map((String _dropDownStringItem) {
@@ -424,6 +432,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: <Widget>[
                       ListView.builder(
                         shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
                         itemCount: _character.items.length,
                         itemBuilder: (context, index) => ListTile(
                           trailing: Text('(x' +
@@ -443,6 +452,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: <Widget>[
                       ListView.builder(
                         shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
                         itemCount: _character.skills.length,
                         itemBuilder: (context, index) => ListTile(
                           trailing: Text('Lv. ' +
@@ -461,6 +471,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: <Widget>[
                       ListView.builder(
                         shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
                         itemCount: _character.statuses.length,
                         itemBuilder: (context, index) => ListTile(
                           title: TextFormField(
@@ -477,6 +488,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: <Widget>[
                       ListView.builder(
                         shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
                         itemCount: _character.notes.length,
                         itemBuilder: (context, index) => ListTile(
                           title: TextFormField(
