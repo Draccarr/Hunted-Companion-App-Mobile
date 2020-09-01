@@ -72,6 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         jayCommand = _value;
         _terminal.text = _value;
+        _saveClicked();
         log(_value);
       });
     });
