@@ -1,4 +1,9 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:mobile_hunted_companion_app/save-and-load.dart';
+import 'package:path_provider/path_provider.dart';
 import 'character.dart';
 
 void main() {
@@ -27,13 +32,16 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(
+        title: 'Hunted Companion',
+        storage: SaveAndLoad(),
+      ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key, this.title, @required this.storage}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -45,6 +53,7 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
 
   final String title;
+  final SaveAndLoad storage;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -54,9 +63,31 @@ class _MyHomePageState extends State<MyHomePage> {
   Character _character = Character("", [], [], [], [], [], 0, 0, 0);
   TextEditingController _terminal = TextEditingController();
   int index = 0;
+  String jayCommand;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.storage.readText().then((String _value) {
+      setState(() {
+        jayCommand = _value;
+        _terminal.text = _value;
+        log(_value);
+      });
+    });
+  }
 
   void _saveClicked() {
     index == 0 ? _importData() : _exportData();
+    //ToDo: Save the data locally here.
+    jayCommand = _terminal.text;
+    widget.storage.writeText(jayCommand);
+    widget.storage.readText().then((String _value) {
+      setState(() {
+        jayCommand = _value;
+        _terminal.text = _value;
+      });
+    });
   }
 
   void _exportData() {
@@ -148,6 +179,13 @@ class _MyHomePageState extends State<MyHomePage> {
       _character.notes.clear();
       _character.names.clear();
 
+      //@Alek, why remove :Jay: and UC? The players need them if they are to
+      //paste their commands back into Discord. What I was asking before was for
+      //all the text in the terminal to be cleared after the save button had been pressed
+      //so the player could quickly add another profile to another character sheet.
+      //However, this is something that can be done in a future update/Next milestone.
+      //
+      //In short, I'm asking if you are good with removing these two lines.
       _terminal.text = _terminal.text.replaceAll(":Jay: ", "");
       _terminal.text = _terminal.text.replaceAll("UC ", "");
 
@@ -307,7 +345,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      // ToDo: Work on this. (James) []-----------[)
                       Expanded(
                         child: DropdownButton<String>(
                           value: dropdownValue,
@@ -451,11 +488,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     ]),
               ],
             ),
-            // ListView.builder(
-            //   itemCount: _character.skills.length,
-            //   itemBuilder: (context, index) =>
-            //       Text(_character.skills[index].name),
-            // ),
           ],
         ),
         floatingActionButton: FloatingActionButton(
