@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:mobile_hunted_companion_app/save-and-load.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'character.dart';
 
 void main() {
@@ -199,6 +200,7 @@ class _MyHomePageState extends State<MyHomePage> {
         try {
           if (line.contains(";")) {
             List<String> line1 = line.split(':');
+            if (line1.length <= 1) throw Exception('invalid item ' + line);
             line1[1] = line1[1].replaceAll(";", "");
             if (line1[0].toLowerCase().contains("item")) {
               Item i = Item("", 0);
@@ -229,11 +231,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 i.name = line1[1];
                 i.quantity = 1;
               }
-              _character.items.add(i);
+              if (_character.items
+                      .where((element) => element.name == i.name)
+                      .length ==
+                  0) {
+                _character.items.add(i);
+              }
             } else if (line1[0].toLowerCase().contains("status")) {
               Status status = new Status("", "");
               status.name = line1[1].trim();
-              _character.statuses.add(status);
+              if (_character.statuses
+                      .where((element) => element.name == status.name)
+                      .length ==
+                  0) {
+                _character.statuses.add(status);
+              }
             } else if (line1[0].toLowerCase().contains("skill")) {
               Skill skill = new Skill("", 0);
               if (line1[1].toLowerCase().contains("lv")) {
@@ -250,11 +262,22 @@ class _MyHomePageState extends State<MyHomePage> {
                 skill.name = line1[1];
                 skill.level = 1;
               }
-              _character.skills.add(skill);
+              if (_character.skills
+                      .where((element) => element.name == skill.name)
+                      .length ==
+                  0) {
+                _character.skills.add(skill);
+              }
             } else if (line1[0].toLowerCase().contains("note")) {
               Note note = new Note("", "");
               note.description = line1[1];
-              _character.notes.add(note);
+              if (_character.notes
+                      .where(
+                          (element) => element.description == note.description)
+                      .length ==
+                  0) {
+                _character.notes.add(note);
+              }
             } else if (line1[0].toLowerCase().contains("currency")) {
               if (line1[1].toLowerCase().contains("gold")) {
                 String gold = "";
@@ -281,14 +304,23 @@ class _MyHomePageState extends State<MyHomePage> {
                 }
                 _character.copper = int.tryParse(copper);
               }
-            } else if (line1[0].toLowerCase().contains("name")) {
+            } else if (line1[0].toLowerCase().contains("name") &&
+                !_character.names.contains(line1[1].trim())) {
               _character.names.add(line1[1].trim());
             }
-          } else if (!["", null, false, 0].contains(line.trim())) {
+          } else if (!["", null, false, 0].contains(line.trim()) &&
+              ["", null, false, 0].contains(_character.name)) {
             _character.name = line.trim();
           }
         } catch (ex) {
-          print(ex);
+          Fluttertoast.showToast(
+              msg: ex.toString(),
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
         }
       });
     });
